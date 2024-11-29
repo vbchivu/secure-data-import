@@ -15,7 +15,9 @@ dist/
 # Misc
 .DS_Store
 .env
+.env.docker
 .env.local
+.env.example.old
 .env.development.local
 .env.test.local
 .env.production.local

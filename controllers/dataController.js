@@ -57,7 +57,7 @@ const importData = async (req, res) => {
         }
 
         // Fetch data from remote database
-        const remoteData = await fetchData(tableName);
+        const remoteData = await fetchData(tableName, userId);
 
         if (remoteData.length === 0) {
             logger.info(`No data found in remote table ${tableName}`);

@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: application-container
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/usr/src/app
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - LOCAL_DB_HOST=app_db
+      - LOCAL_DB_PORT=3306
+      - LOCAL_DB_USERNAME=${APP_DB_USER}
+      - LOCAL_DB_PASSWORD=${APP_DB_PASSWORD}
+      - LOCAL_DB_NAME=${APP_DB_NAME}
+      - JWT_SECRET=${JWT_SECRET}
+      - ENCRYPTION_SECRET=${ENCRYPTION_SECRET}
+    depends_on:
+      - app_db
+
+  app_db:
+    image: mysql:5.7
+    container_name: application-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${APP_DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${APP_DB_NAME}
+      MYSQL_USER: ${APP_DB_USER}
+      MYSQL_PASSWORD: ${APP_DB_PASSWORD}
+    ports:
+      - "3307:3306"
+    volumes:
+      - app_db_data:/var/lib/mysql
+      - ./db_init:/docker-entrypoint-initdb.d
+volumes:
+  app_db_data:
