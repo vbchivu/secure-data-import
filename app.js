@@ -10,11 +10,15 @@ const dataRoutes = require('./routes/dataRoutes');
 const sshKeyRoutes = require('./routes/sshKeyRoutes');
 const connectionRoutes = require('./routes/connectionRoutes');
 const { logger } = require('./utils/logger');
+const { swaggerUi, swaggerSpec } = require('./swaggerConfig');
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(cors());
+
+// Swagger API documentation
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Use Routes
 app.use('/auth', authRoutes);
